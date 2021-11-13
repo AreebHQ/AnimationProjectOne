@@ -7,23 +7,27 @@
     android:background="@drawable/backgroundone"
     tools:context=".gameone">
 
+
     <LinearLayout
         android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="404dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="72dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/btn_bck"
+            android:id="@+id/btn_left"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/ic_backspace_24px"
             android:contentDescription="up"
-            android:padding="12dp" />
+            android:padding="12dp"
+            android:transitionName="left" />
 
         <Button
             android:id="@+id/btn_dwn"
@@ -32,16 +36,18 @@
             android:layout_weight="1"
             android:background="@drawable/ic_downspace_24px"
             android:contentDescription="up"
-            android:padding="12dp" />
+            android:padding="12dp"
+            android:transitionName="down" />
 
         <Button
-            android:id="@+id/btn_fwd"
+            android:id="@+id/btn_right"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/ic_forwardspace_24px"
             android:contentDescription="up"
-            android:padding="12dp" />
+            android:padding="12dp"
+            android:transitionName="right" />
 
         <Button
             android:id="@+id/btn_up"
@@ -50,11 +56,11 @@
             android:layout_weight="1"
             android:background="@drawable/ic_upspace_24px"
             android:contentDescription="up"
-            android:padding="12dp" />
+            android:padding="12dp"
+            android:transitionName="up" />
 
 
     </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -64,6 +70,7 @@
         android:layout_marginTop="16dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/header">
 
@@ -110,12 +117,11 @@
 
     </LinearLayout>
 
-
     <ImageView
         android:id="@+id/pack"
         android:layout_width="60dp"
         android:layout_height="51dp"
-        android:layout_marginTop="144dp"
+        android:layout_marginTop="52dp"
 
 
         android:src="@drawable/packmanone"
@@ -128,11 +134,39 @@
         android:id="@+id/btn1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="284dp"
-        android:layout_marginTop="36dp"
-        android:text="Button 1"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:onClick="checkMoves"
+        android:text="Start"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:text="Exit Game"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.863"
+        app:layout_constraintStart_toEndOf="@+id/btn1"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:textSize="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="9dp"
+        android:text="Drag and Drop"
+        app:layout_constraintBottom_toTopOf="@+id/header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.453"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
