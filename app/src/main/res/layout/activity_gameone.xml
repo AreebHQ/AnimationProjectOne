@@ -105,23 +105,13 @@
             android:padding="12dp"
             android:text="    " />
 
-        <Button
-            android:id="@+id/btn_input3"
-            android:layout_width="91dp"
-            android:layout_height="54dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/white"
-            android:text="    "
-            tools:layout_editor_absoluteX="217dp"
-            tools:layout_editor_absoluteY="113dp" />
-
     </LinearLayout>
 
     <ImageView
         android:id="@+id/pack"
         android:layout_width="60dp"
         android:layout_height="51dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="64dp"
 
 
         android:src="@drawable/packmanone"
@@ -132,8 +122,8 @@
 
     <Button
         android:id="@+id/btn1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="47dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:onClick="checkMoves"
@@ -149,7 +139,7 @@
         android:layout_marginEnd="16dp"
         android:text="Exit Game"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.863"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/btn1"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
@@ -167,6 +157,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/gameOneround"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:text="Round: "
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.458"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

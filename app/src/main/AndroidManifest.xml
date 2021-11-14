@@ -10,13 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PracticeNew">
         <activity
-            android:name=".MainActivity"
+            android:name=".GameTwo"
             android:exported="false" />
         <activity
             android:name=".gameone"
             android:exported="false" />
         <activity
-            android:name=".GameTwo"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

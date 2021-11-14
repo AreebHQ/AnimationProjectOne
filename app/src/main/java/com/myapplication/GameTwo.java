@@ -11,14 +11,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -32,8 +35,9 @@ public class GameTwo extends AppCompatActivity {
     Button btn1;
     ArrayList<String> moves = new ArrayList<>();
     ArrayList <ObjectAnimator> move = new ArrayList<>();
-
-    int GameCount = 0;
+    MediaPlayer backgroundMusic, loserSound, winnersound;
+    TextView gameRound;
+    int GameCount = 1;
     int correct = 0;
     int wrong = 0;
     @Override
@@ -47,7 +51,9 @@ public class GameTwo extends AppCompatActivity {
         findViewById(R.id.btn_dwn).setOnLongClickListener(mStrtDrg);
         findViewById(R.id.btn_right).setOnLongClickListener(mStrtDrg);
         findViewById(R.id.btn_up).setOnLongClickListener(mStrtDrg);
-
+        backgroundMusic = MediaPlayer.create(GameTwo.this,R.raw.musicone);
+        loserSound = MediaPlayer.create(GameTwo.this, R.raw.losersound);
+        winnersound = MediaPlayer.create(GameTwo.this, R.raw.winnersound);
         findViewById(R.id.btn_input1).setOnDragListener(mEndDrg);
         findViewById(R.id.btn_input2).setOnDragListener(mEndDrg);
         findViewById(R.id.btn_input3).setOnDragListener(mEndDrg);
@@ -55,22 +61,32 @@ public class GameTwo extends AppCompatActivity {
         findViewById(R.id.btn_input5).setOnDragListener(mEndDrg);
         findViewById(R.id.btn_input6).setOnDragListener(mEndDrg);
         btn1 = findViewById(R.id.btn1);
-
         packImage= (ImageView) findViewById(R.id.pack);
-
+        gameRound = findViewById(R.id.gameround);
+        backgroundMusic.start();
         // getting game number of games played
         GameCount = gameData.getInt("gameTwoCount",0);
 
-        //if 3 games have been played - set it to 0 before start
-        if (GameCount == 3)
-        {
-            GameCount = 0;
-        }
 
         ObjectAnimator animator = ObjectAnimator.ofFloat(packImage, "rotation", 0, 360);
         animator.setDuration(500);
         animator.start();
 
+        //if 3 games have been played - set it to 0 before start
+        if (GameCount == 4)
+        {
+            GameCount = 1;
+        }
+        gameRound.setText("Round: "+ GameCount);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        backgroundMusic.release();
+        loserSound.release();
+        winnersound.release();
     }
 
     public void checkMoves(View view) {
@@ -85,19 +101,19 @@ public class GameTwo extends AppCompatActivity {
         ObjectAnimator scalePackman  = ObjectAnimator.ofFloat(packImage, "scaleX", 1.2f);
         scalePackman.setDuration(700);
         //to move right
-        ObjectAnimator moveRight  = ObjectAnimator.ofFloat(packImage, "translationX", 450);
+        ObjectAnimator moveRight  = ObjectAnimator.ofFloat(packImage, "translationX", 435);
         moveRight.setDuration(1500);
         //to move right secind time
         ObjectAnimator moveRight2  = ObjectAnimator.ofFloat(packImage, "translationX", 900);
         moveRight2.setDuration(1500);
         // to move down
-        ObjectAnimator moveDown =  ObjectAnimator.ofFloat(packImage, "translationY", 230);
+        ObjectAnimator moveDown =  ObjectAnimator.ofFloat(packImage, "translationY", 245);
         moveDown.setDuration(1500);
         // to move down2
-        ObjectAnimator moveDown2 =  ObjectAnimator.ofFloat(packImage, "translationY", 500);
+        ObjectAnimator moveDown2 =  ObjectAnimator.ofFloat(packImage, "translationY", 530);
         moveDown2.setDuration(1500);
         // to move down2
-        ObjectAnimator moveDown3 =  ObjectAnimator.ofFloat(packImage, "translationY", 800);
+        ObjectAnimator moveDown3 =  ObjectAnimator.ofFloat(packImage, "translationY", 830);
         moveDown3.setDuration(1500);
         // to move left
         ObjectAnimator moveleft =  ObjectAnimator.ofFloat(packImage, "translationX", 190);
@@ -118,12 +134,13 @@ public class GameTwo extends AppCompatActivity {
         // getting moves from moves list to ObjectAnimator list
         for (int i=0; i<moves.size();i++) {
             if  (!moves.get(i).equals(solution[i]))
-            {
+            {   backgroundMusic.release();
+                loserSound.start();
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                alert.setMessage( moves.get(i).toUpperCase(Locale.ROOT) +" is wrong move! GAME OVER! \n Click Ok to move to next Game.");
+                alert.setMessage( moves.get(i).toUpperCase(Locale.ROOT) +" is wrong move! GAME OVER! \n Click Ok to move to next Round.");
                 int finalGameCount = GameCount;
                 alert.setPositiveButton("Ok", (v, a) -> {
-                    if (finalGameCount == 3) {
+                    if (finalGameCount == 4) {
                     startActivity(new Intent(getApplicationContext(), MainActivity.class)); }
                     else {
                         startActivity(new Intent(getApplicationContext(), GameTwo.class));
@@ -134,11 +151,13 @@ public class GameTwo extends AppCompatActivity {
             }
             // show dialog box for game over if move is UP
             if (moves.get(i).equals("up")) {
+                backgroundMusic.release();
+                loserSound.start();
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                alert.setMessage("UP is wrong move! GAME OVER! \n Click Ok to move to next Game.");
+                alert.setMessage("UP is wrong move! GAME OVER! \n Click Ok to move to next Round.");
                 int finalGameCount = GameCount;
                 alert.setPositiveButton("Ok", (v, a) -> {
-                    if (finalGameCount == 3) {
+                    if (finalGameCount == 4) {
                         startActivity(new Intent(getApplicationContext(), MainActivity.class)); }
                     else {
                         startActivity(new Intent(getApplicationContext(), GameTwo.class));
@@ -201,10 +220,11 @@ public class GameTwo extends AppCompatActivity {
                 @Override
                 public void run() {
 
-                    alert.setMessage("Congratulations YOU WIN!!! \n Click Ok to move to next Game.");
-                    int finalGameCount = GameCount;
+                    winnersound.start();
+                    backgroundMusic.release();
+                    alert.setMessage("Congratulations YOU WIN!!! \n Click Ok to move to next Round.");
                     alert.setPositiveButton("Ok", (v, a) -> {
-                        if (finalGameCount == 3) {
+                        if (GameCount == 4) {
                             startActivity(new Intent(getApplicationContext(), MainActivity.class)); }
                         else {
                             startActivity(new Intent(getApplicationContext(), GameTwo.class));
@@ -216,13 +236,15 @@ public class GameTwo extends AppCompatActivity {
             }, SPLASH_TIME_OUT); }
         else {
             wrong++;
+            backgroundMusic.release();
+            loserSound.start();
+
             editor.putInt("gameTwoWrong", wrong);
             editor.commit();
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setMessage("Incomplete Instruction -  GAME OVER! \n Click Ok to move to next Game.");
-            int finalGameCount = GameCount;
+            alert.setMessage("Incomplete Instruction -  GAME OVER! \n Click Ok to move to next Round.");
             alert.setPositiveButton("Ok", (v, a) -> {
-                if (finalGameCount == 3) {
+                if (GameCount == 4) {
                     startActivity(new Intent(getApplicationContext(), MainActivity.class)); }
                 else {
                     startActivity(new Intent(getApplicationContext(), GameTwo.class));
